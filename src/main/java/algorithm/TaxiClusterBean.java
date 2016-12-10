@@ -1,32 +1,30 @@
 package algorithm;
 
-import java.util.List;
-
 /**
- * Created by leoz on 2016/11/25.
+ * Created by leoz on 2016/12/10.
  */
-public class ClusterBean {
-    private String name;
-    private List<BaseBean> weight;
+public class TaxiClusterBean {
+    private float longitude;
+    private float latitude;
 
     private boolean isKey;
     private boolean isClassed;
     private boolean isVisited;
 
-    public String getName() {
-        return name;
+    public float getLongitude() {
+        return longitude;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 
-    public List<BaseBean> getWeight() {
-        return weight;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public void setWeight(List<BaseBean> weight) {
-        this.weight = weight;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 
     public boolean isKey() {
@@ -51,5 +49,10 @@ public class ClusterBean {
 
     public void setVisited(boolean visited) {
         isVisited = visited;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.longitude + "," + this.latitude + "]";
     }
 }
