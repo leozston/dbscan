@@ -103,6 +103,65 @@ public class DBSCANAlorithm {
         display();
         System.out.println("展示结果完成");
         FileOperateUtil.myLogger("展示结果完成" + new Date());
+
+
+        //进行相似度计算
+        computeClusterSimilar();
+    }
+
+
+    /**
+     *这里采用平均数计算簇的中心
+     * */
+    private void computeClusterSimilar() {
+        List<TaxiClusterBean> centerCluster = Lists.newArrayList();
+
+        float centerLongitude = 0;
+        float centerLatitude = 0;
+        for (int i =0; i < clusterResults.size(); i++) {
+            for (int j = 0; j < clusterResults.get(i).size(); j++) {
+                centerLongitude += clusterResults.get(i).get(j).getLongitude();
+                centerLatitude += clusterResults.get(i).get(j).getLatitude();
+            }
+            //获得中心点
+            centerLongitude /= clusterResults.get(i).size();
+            centerLatitude /= clusterResults.get(i).size();
+            TaxiClusterBean tmp = new TaxiClusterBean();
+            tmp.setLongitude(centerLongitude);
+            tmp.setLatitude(centerLatitude);
+            centerCluster.add(tmp);  //将中心点保存起来
+
+            //将簇中的每个点与中心点比较获得距离以作为簇内之间的相似度
+            float clusterSimilar = 0;
+            for (int k = 0; k < clusterResults.get(i).size(); k++) {
+                float tmpLongitude = clusterResults.get(i).get(k).getLongitude();
+                float tmpLatitude = clusterResults.get(i).get(k).getLatitude();
+                clusterSimilar += Math.sqrt((tmpLongitude - centerLongitude) * (tmpLongitude - centerLongitude) + (tmpLatitude - centerLatitude) * (tmpLatitude - centerLatitude));
+            }
+            clusterSimilar /= clusterResults.get(i).size();
+            System.out.println("第" + i + "个簇内距离是：" + clusterSimilar);
+            FileOperateUtil.myLogger("第" + i + "个簇内距离是：" + clusterSimilar);
+        }
+
+        //计算簇间的相似度
+        float betweenClusterLongitude = 0;
+        float betweenClusterLatitude = 0;
+        for (int i = 0; i < centerCluster.size(); i++) {
+            betweenClusterLongitude += centerCluster.get(i).getLongitude();
+            betweenClusterLatitude += centerCluster.get(i).getLatitude();
+        }
+        betweenClusterLongitude /= centerCluster.size();
+        betweenClusterLatitude /= centerCluster.size();
+
+        float betweenClusterSimilar = 0;
+        for (int i = 0; i < centerCluster.size(); i++) {
+            float tmpLongitude = centerCluster.get(i).getLongitude();
+            float tmpLatitude = centerCluster.get(i).getLatitude();
+            betweenClusterSimilar += Math.sqrt((tmpLongitude - betweenClusterLongitude) * (tmpLongitude - betweenClusterLongitude) + (tmpLatitude - betweenClusterLatitude) * (tmpLatitude - betweenClusterLatitude));
+        }
+        betweenClusterSimilar /= centerCluster.size();
+        System.out.println("簇间距离是：" + betweenClusterSimilar);
+        FileOperateUtil.myLogger("簇间距离是：" + betweenClusterSimilar);
     }
 
     public void display(){
