@@ -2,10 +2,12 @@ package algorithm;
 
 import com.google.common.collect.Lists;
 import fileoperate.FileOperateUtil;
+import fileoperate.FileOperateUtilTemp;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -177,14 +179,24 @@ public class DBSCANAlorithm {
     }
 
     public static void main(String[] args) {
-        DBSCANAlorithm dbscanAlorithm = new DBSCANAlorithm();
-        dbscanAlorithm.getStockClusterBean();
-        //验证MinPts要小于stockClusterBeanList.size-1;
-        if (!(MinPts < stockClusterBeanList.size() - 1)) {
-            System.out.println("MinPts取值不符合规范，重新取值");
-            System.exit(0);
-        }
-
-        dbscanAlorithm.DBSCANCluster();
+//        DBSCANAlorithm dbscanAlorithm = new DBSCANAlorithm();
+//        dbscanAlorithm.getStockClusterBean();
+//        //验证MinPts要小于stockClusterBeanList.size-1;
+//        if (!(MinPts < stockClusterBeanList.size() - 1)) {
+//            System.out.println("MinPts取值不符合规范，重新取值");
+//            System.exit(0);
+//        }
+//
+//        dbscanAlorithm.DBSCANCluster();
+        String path = "C:\\Users\\leoz\\Desktop\\cheliang";
+//        String outPath = "C:\\Users\\leoz\\Desktop\\data\\";
+//        SimpleDateFormat sdf  =   new SimpleDateFormat( "yyyy-MM-dd" );
+        FileOperateUtilTemp.getStockClusterBeanList(path);
+//        System.out.println(list.size());
+//        for (BaseBean baseBean : list) {
+//            FileOperateUtilTemp.myLogger(outPath + sdf.format(baseBean.getCarDate()) + ".txt", baseBean.toString());
+//        }
+        System.out.println("完毕");
     }
+
 }
